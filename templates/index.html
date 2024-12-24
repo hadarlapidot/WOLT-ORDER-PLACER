@@ -3,16 +3,42 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Order Page</title>
   </head>
   <body>
+    <style>
+      .success {
+        color: green;
+      }
+      .error {
+        color: red;
+      }
+      .info {
+        color: blue;
+      }
+    </style>
     <h1>Order From Wolt</h1>
     <br />
     <form action="/submit" method="post">
-      <label for="order">Place your order:</label>
-      <input type="text" id="order" name="order" value="Pizza" required />
+      <label for="food_category">Place your order:</label>
+      <input type="text" id="food_category" name="food_category" value="Pizza" required /><br>
+      <label for="restaurant">Place your order:</label>
+      <input
+        type="text"
+        id="restaurant"
+        name="restaurant"
+        value="Amore Mio"
+        required
+      />
+    </br>
+    <label for="order"></label>
+    <input type="text" id="order" name="order" value="דיל זוגי" required> <br>
       <input type="submit" onclick="place_order()" />
     </form>
-    <script src="script.js"></script>
+
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %} {% for category, message in messages %}
+    <p class="{{ category }}">{{ message }}</p>
+    {% endfor %} {% endif %} {% endwith %}
   </body>
 </html>
