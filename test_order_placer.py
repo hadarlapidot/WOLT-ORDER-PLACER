@@ -10,8 +10,21 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.keys import Keys
 from time import sleep as sleep
 from flask import Flask, render_template, request
+from page_objects.base_page import BasePage
 
 app = Flask(__name__)
+driver = None
+
+@app.before_request
+def setup_driver():
+    global driver
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+    
+@app.teardown_appcontext
+def teardown_driver(exception=None):
+    global driver
+    if driver:
+        driver.quit()
 
 # Display the form
 @app.route('/')
@@ -19,20 +32,32 @@ def index():
     return render_template('index.html')
 
 # Handle form submission
+
 @app.route('/submit', methods=['POST'])
 def test_place_order():
+    global driver
     # The food to be ordered
     order = request.form['order'] 
-
-    # set up chrome driver
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
-    driver.maximize_window()
 
     # open WOLT website
     driver.get("https://wolt.com/en/discovery")
     
-    # look up for Shawarma
+    # Instantiate a basePage object
+    page = BasePage(driver)
     wait = WebDriverWait(driver, 10)
+
+
+    # First: sign in
+    # If signed out then sign in. Else: sign in.
+    # if page.is_logged_in():
+    #     page.log_in()
+    # else:
+    #     driver.quit()
+
+
+
+
+    # look up for Pizza
 
 
     # search in search bar
