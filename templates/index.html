@@ -7,11 +7,12 @@
   </head>
   <body>
     <h1>Order From Wolt</h1>
-    <p>Place your order:</p>
     <br />
-    <input type="text" placeholder="Shawarma" />
-    <input type="text" onclick="place_order()" />
-
+    <form action="/submit" method="post">
+      <label for="order">Place your order:</label>
+      <input type="text" id="order" name="order" required />
+      <input type="submit" onclick="place_order()" />
+    </form>
     <script src="script.js"></script>
   </body>
 </html>

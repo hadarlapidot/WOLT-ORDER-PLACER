@@ -9,8 +9,20 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.keys import Keys
 from time import sleep as sleep
+from flask import Flask, render_template, request
 
+app = Flask(__name__)
+
+# Display the form
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+# Handle form submission
+@app.route('/submit', methods=['POST'])
 def test_place_order():
+    # The food to be ordered
+    order = request.form['order'] 
 
     # set up chrome driver
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
@@ -28,7 +40,7 @@ def test_place_order():
     wait.until(ec.visibility_of_element_located(search_bar_locator))
     search_bar = driver.find_element(*search_bar_locator)
     search_bar.click()
-    search_bar.send_keys("Shawarma")
+    search_bar.send_keys(order)
     search_bar.send_keys(Keys.ENTER)
 
-    sleep(3)
+    sleep(5)
